@@ -71,12 +71,10 @@ public class HomePageActivity extends AppCompatActivity {
                     time = 0.0;
                     showtimer.setText(formatTime(0,0,0));
                 }
-
+                // method to get the location
                 getLastLocation();
                 startTimer();  // for showing timer in screen
-                // method to get the location
-                //locationView.setText("Current location");
-               // Toast.makeText(HomePageActivity.this, "Login Attendance Marked for today's date : " + inTime, Toast.LENGTH_SHORT).show();
+               Toast.makeText(HomePageActivity.this, "Login Attendance Marked for today's date : " + inTime, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -90,6 +88,9 @@ public class HomePageActivity extends AppCompatActivity {
                 markeAttendanceLogin.setEnabled(true);
                 alreadyMarkedLogout = false;
                 timerTask.cancel();
+                if(locationView.getText().toString() != null){
+                        locationView.setText("");
+                }
                 Toast.makeText(HomePageActivity.this, "Logout Attendance Marked for today's date : "  +outTime, Toast.LENGTH_SHORT).show();
             }
         });
@@ -108,7 +109,7 @@ public class HomePageActivity extends AppCompatActivity {
                         try {
                             addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
                             Log.e("Address : ","Latitude : " + addresses.get(0).getLatitude()+ "Longitude : " +addresses.get(0).getLongitude() );
-                            locationView.setText("Latitude : " + addresses.get(0).getLatitude() + "Longitude : " +addresses.get(0).getLongitude() + " Address : "+ addresses.get(0).getAddressLine(0));
+                            locationView.setText("Your Current in-Time Locatioin \n"+"Latitude : " + addresses.get(0).getLatitude() + "\nLongitude : " +addresses.get(0).getLongitude() + "\nAddress Location : "+ addresses.get(0).getAddressLine(0));
 
                         } catch (IOException e) {
                             throw new RuntimeException(e);
