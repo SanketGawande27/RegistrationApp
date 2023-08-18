@@ -38,7 +38,7 @@ public class Login extends AppCompatActivity {
         forgetpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(Login.this, TimerActivity.class));
+                startActivity(new Intent(Login.this, TimerActivity.class));
             }
         });
 
