@@ -33,7 +33,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/btnAttendanceMarked"
         app:layout_constraintTop_toBottomOf="@+id/btnAttendanceMarked"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.075" />
 
     <TextView
         android:id="@+id/textTimer"
@@ -48,7 +48,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnMakredAttendanceLogout"
-        app:layout_constraintVertical_bias="0.601" />
+        app:layout_constraintVertical_bias="0.583" />
 
     <TextView
         android:id="@+id/locationView"
@@ -56,8 +56,20 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/btnAttendanceMarked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/diplayInOutlabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/locationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
