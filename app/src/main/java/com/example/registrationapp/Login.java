@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -13,6 +14,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,9 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.w3c.dom.Text;
 
@@ -40,12 +45,21 @@ public class Login extends AppCompatActivity {
     TextView btn;
     TextView forgetpass;
     Button login;
+    ProgressDialog progessDialog;
+    String validateEmailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
 
     MyDBHandler db;
     private LocationRequest locationRequest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //authentication
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        progessDialog = new ProgressDialog(this);
+
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
@@ -65,25 +79,8 @@ public class Login extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(Login.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (isGPSEnabled()) {
-
-                           /* LocationServices.getFusedLocationProviderClient(Login.this).requestLocationUpdates(locationRequest, new LocationCallback() {
-                                @Override
-                                public void onLocationResult(@NonNull LocationResult locationResult) {
-                                    super.onLocationResult(locationResult);
-                                    LocationServices.getFusedLocationProviderClient(Login.this).removeLocationUpdates(this);
-
-                                    if(locationResult != null && locationResult.getLocations().size() >0){
-                                        int index = locationResult.getLocations().size() -1;
-                                        double latitude = locationResult.getLocations().get(index).getLatitude();
-                                        double longitude = locationResult.getLocations().get(index).getLongitude();
-                                        viewlocation.setText("Latitude : " + latitude+ "\n" + "Longitude : "+ longitude);
-
-                                    }
-                                }
-                            }, Looper.getMainLooper());  */
-
-
-                } else {
+                        Log.e("GPS Enable", "GPS Enabled ..");
+                  } else {
                     turnOnGPS();
                 }
             } else {
@@ -96,7 +93,7 @@ public class Login extends AppCompatActivity {
         forgetpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this, LocationActivity.class));
+                startActivity(new Intent(Login.this, ForgetPasswordActivity.class));
             }
         });
 
@@ -104,21 +101,7 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user = username.getText().toString();
-                String pass = password.getText().toString();
-
-                if(user.equals("")||pass.equals("")){
-                    Toast.makeText(Login.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
-                }else{
-                    Boolean checkUserandPassword = db.checkUsernameAndPassword(user,pass);
-                    if(checkUserandPassword == true){
-                        Toast.makeText(Login.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                        startActivity(intent);
-                    }else {
-                        Toast.makeText(Login.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                performLogin();
             }
         });
 
@@ -129,6 +112,43 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(Login.this, Registration.class));
             }
         });
+    }
+
+    private void performLogin() {
+        String emailID = username.getText().toString();
+        String pass = password.getText().toString();
+
+        if (!emailID.matches(validateEmailPattern)) {
+            username.setError("Enter Correct Email");
+        } else if (pass.isEmpty() || pass.length() < 6) {
+            password.setError("Enter alteast 6 digit password");
+        } else {
+            progessDialog.setMessage("Please wait while Login .... ");
+            progessDialog.setTitle("Login");
+            progessDialog.setCanceledOnTouchOutside(false);
+            progessDialog.show();
+
+            mAuth.signInWithEmailAndPassword(emailID,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        progessDialog.dismiss();
+                        sendUsertoNextActivity();
+                        Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        progessDialog.dismiss();
+                        Toast.makeText(Login.this, ""+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private void sendUsertoNextActivity() {
+        Intent intent = new Intent(Login.this,HomePageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void turnOnGPS() {
@@ -145,7 +165,7 @@ public class Login extends AppCompatActivity {
 
                 try {
                     LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toast.makeText(Login.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "GPS is already turned on", Toast.LENGTH_SHORT).show();
 
                 } catch (ApiException e) {
 
