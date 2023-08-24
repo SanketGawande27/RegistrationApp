@@ -44,7 +44,7 @@ public class Login extends AppCompatActivity {
     EditText username, password;
     TextView btn;
     TextView forgetpass;
-    Button login;
+    Button login,gbtn,fbtn;
     ProgressDialog progessDialog;
     String validateEmailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     FirebaseAuth mAuth;
@@ -70,6 +70,8 @@ public class Login extends AppCompatActivity {
         password = (EditText) findViewById(R.id.txtPassword);
         login = (Button) findViewById(R.id.btn_login);
         btn = findViewById(R.id.txtSignUp);
+        gbtn = (Button) findViewById(R.id.btnGoogle);
+        fbtn = (Button) findViewById(R.id.btnFacebook);
         forgetpass = (TextView) findViewById(R.id.txtForgetPassword);
         db = new MyDBHandler(this);
 
@@ -101,10 +103,25 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                performLogin();
+                String emailID = username.getText().toString().trim();
+                String pass = password.getText().toString();
+                if(emailID == "admin@admin.com" && pass == "admin@12"){
+                    Intent intent = new Intent(Login.this,AdminHomeActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(Login.this, "Admin Login Successful", Toast.LENGTH_SHORT).show();
+                }else {
+                    performLogin();
+                }
+
             }
         });
 
+        gbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startActivity(new Intent(Login.this, AdminHomeActivity.class));
+            }
+        });
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -30,6 +30,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.example.registrationapp.model.RecordDetails;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -43,23 +44,29 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class HomePageActivity extends AppCompatActivity {
 
     TextView showtimer, locationView, diplayInOutlabel;
     Double time = 0.0;
     TimerTask timerTask;
-    String inTime = null;
-    String outTime = null;
-
+    DatabaseReference databaseReference;
+    String inTime,outTime = null;
+    String totalHR;
     String inTimeLocation,outTimeLocation;
 
     LocationManager locationManager;
-    String latitude,longit;
     Timer timer;
     Button markeAttendanceLogin;
     Button markeAttendanceLogout;
     Boolean alreadyMarkedLogout=true;
+
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
 
    FusedLocationProviderClient fusedLocationClient;
     private final static int REQUEST_CODE = 100;
@@ -78,6 +85,9 @@ public class HomePageActivity extends AppCompatActivity {
         //end location request
 
         /* ----------- initialized variables ------------------- */
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("AttendanceRecord");
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
         timer = new Timer();
         markeAttendanceLogin = (Button) findViewById(R.id.btnAttendanceMarked);
         markeAttendanceLogout = (Button) findViewById(R.id.btnMakredAttendanceLogout);
@@ -102,9 +112,10 @@ public class HomePageActivity extends AppCompatActivity {
                 }
                 // method to get the location
                 diplayInOutlabel.setText("Your Current in-Time location details");
-                getCurentLocation();
+                getCurrentInTimeLocation();
                 startTimer();  // for showing timer in screen
-               Toast.makeText(HomePageActivity.this, "Login Attendance Marked for today's date : " + inTime, Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomePageActivity.this, "Login Attendance Marked for today's date : " + inTime, Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -119,14 +130,30 @@ public class HomePageActivity extends AppCompatActivity {
                 alreadyMarkedLogout = false;
                 timerTask.cancel();
                 diplayInOutlabel.setText("Your Current out-Time locatioin details");
-                //getLastLocation();
-                getCurentLocation();
-                Toast.makeText(HomePageActivity.this, "Logout Attendance Marked for today's date : "  +outTime, Toast.LENGTH_SHORT).show();
+                getCurrentOutTimeLocation();
+                InsertRecords();
             }
         });
     }
 
-    private void getCurentLocation() {
+    private void InsertRecords() {
+         String email = mUser.getEmail();
+         String inTimeandDate = inTime;
+         String intimeLocation = inTimeLocation;
+         String outTimeandDate = outTime;
+         String outtimeLocation = outTimeLocation;
+         String totalHr = showtimer.getText().toString();
+         if(null!=email && null!=inTimeandDate && null!=intimeLocation && null!=outTimeandDate && null!=outtimeLocation && null!=totalHr){
+             RecordDetails recordDetails = new RecordDetails(email,inTimeandDate,intimeLocation,outTimeandDate,outtimeLocation,totalHr);
+             databaseReference.push().setValue(recordDetails);
+             Toast.makeText(HomePageActivity.this, "Logout Attendance Marked for today's date : "  +outTime, Toast.LENGTH_SHORT).show();
+
+         }else{
+             Toast.makeText(HomePageActivity.this, "Insertion Failed " , Toast.LENGTH_SHORT).show();
+         }
+    }
+
+    private void getCurrentInTimeLocation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(HomePageActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (isGPSEnabled()) {
@@ -142,6 +169,43 @@ public class HomePageActivity extends AppCompatActivity {
                                 double latitude = locationResult.getLocations().get(index).getLatitude();
                                 double longitude = locationResult.getLocations().get(index).getLongitude();
                                 locationView.setText("Latitude : " + latitude+ "\n" + "Longitude : "+ longitude);
+                                inTimeLocation = locationView.getText().toString();
+
+                            }
+                        }
+                    }, Looper.getMainLooper());
+
+
+                } else {
+                    turnOnGPS();
+                }
+            } else {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+            }
+        }
+    }
+
+    private void getCurrentOutTimeLocation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(HomePageActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (isGPSEnabled()) {
+
+                    LocationServices.getFusedLocationProviderClient(HomePageActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                        @Override
+                        public void onLocationResult(@NonNull LocationResult locationResult) {
+                            super.onLocationResult(locationResult);
+                            LocationServices.getFusedLocationProviderClient(HomePageActivity.this).removeLocationUpdates(this);
+
+                            if(locationResult != null && locationResult.getLocations().size() >0){
+                                int index = locationResult.getLocations().size() -1;
+                                double latitude = locationResult.getLocations().get(index).getLatitude();
+                                double longitude = locationResult.getLocations().get(index).getLongitude();
+                                locationView.setText("Latitude : " + latitude+ "\n" + "Longitude : "+ longitude);
+                                if(locationView.getText().toString().isEmpty()){
+                                    getCurrentOutTimeLocation();
+                                }
+                               // Thread.sleep(1000);
+                                outTimeLocation = locationView.getText().toString();
 
                             }
                         }
