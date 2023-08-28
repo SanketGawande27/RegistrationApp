@@ -18,9 +18,11 @@
         android:theme="@style/Theme.RegistrationApp"
         tools:targetApi="31">
         <activity
+            android:name=".TestingLocationActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminHomeActivity"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".ForgetPasswordActivity"
             android:exported="false" />
