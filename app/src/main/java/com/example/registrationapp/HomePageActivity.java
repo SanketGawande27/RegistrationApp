@@ -146,16 +146,11 @@ public class HomePageActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
                 ConfirmationDialogBoxToStoreData();
-                resetAllDataForNewEntry();
+                showtimer.setText(formatTime(0,0,0));
+
 
             }
         });
-    }
-
-    private void resetAllDataForNewEntry() {
-        diplayInOutlabel.setText("");
-        locationView.setText("");
-        showtimer.setText(formatTime(0,0,0));
     }
 
     private void ConfirmationDialogBoxToStoreData() {
