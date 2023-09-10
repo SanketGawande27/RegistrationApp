@@ -103,15 +103,15 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String emailID = username.getText().toString().trim();
-                String pass = password.getText().toString();
-                if(emailID == "admin@admin.com" && pass == "admin@12"){
-                    Intent intent = new Intent(Login.this,AdminHomeActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(Login.this, "Admin Login Successful", Toast.LENGTH_SHORT).show();
-                }else {
-                    performLogin();
-                }
+//                String emailID = username.getText().toString().trim();
+//                String pass = password.getText().toString();
+//                if(emailID.equals("admin@admin.com") && pass.equals("admin@12")){
+//                    Intent intent = new Intent(Login.this,AdminHomeActivity.class);
+//                    startActivity(intent);
+//                    Toast.makeText(Login.this, "Admin Login Successful", Toast.LENGTH_SHORT).show();
+//                }
+                performLogin();
+
 
             }
         });
@@ -119,7 +119,7 @@ public class Login extends AppCompatActivity {
         gbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // startActivity(new Intent(Login.this, LocationActivity.class));
+                startActivity(new Intent(Login.this, AdminHomeActivity.class));
             }
         });
 
@@ -132,7 +132,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void performLogin() {
-        String emailID = username.getText().toString();
+        String emailID = username.getText().toString().trim();
         String pass = password.getText().toString();
 
         if (!emailID.matches(validateEmailPattern)) {
