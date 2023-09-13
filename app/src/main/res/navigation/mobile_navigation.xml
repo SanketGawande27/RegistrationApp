@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.registrationapp.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_recordDetails"
+        android:name="com.example.registrationapp.ui.recordDetails.RecordDetails"
+        android:label="@string/menu_recordDetails"
+        tools:layout="@layout/fragment_recorddetails" />
+
+    <fragment
+        android:id="@+id/nav_getCurrentLoc"
+        android:name="com.example.registrationapp.ui.GetCurrentLocation.GetLocation"
+        android:label="@string/menu_getCurrentLoc"
+        tools:layout="@layout/fragment_getcurrentlocation" />
+
+    <fragment
+        android:id="@+id/nav_setLoc"
+        android:name="com.example.registrationapp.ui.setCurrentLocation.SetLocation"
+        android:label="@string/menu_setLoc"
+        tools:layout="@layout/fragment_setcurrentlocation" />
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.registrationapp.ui.Logout.LogoutFragment"
+        android:label="@string/menu_logout"
+        tools:layout="@layout/fragment_logout" />
+
+</navigation>

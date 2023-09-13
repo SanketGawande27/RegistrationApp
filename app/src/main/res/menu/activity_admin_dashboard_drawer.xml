@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/nav_recordDetails"
+            android:icon="@drawable/baseline_insert_drive_file"
+            android:title="@string/menu_recordDetails" />
+
+        <item
+            android:id="@+id/nav_getCurrentLoc"
+            android:icon="@drawable/baseline_add_location_24"
+            android:title="@string/menu_getCurrentLoc" />
+
+        <item
+            android:id="@+id/nav_setLoc"
+            android:icon="@drawable/baseline_location_on_24"
+            android:title="@string/menu_setLoc" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/baseline_logout"
+            android:title="@string/menu_logout" />
+
+    </group>
+</menu>

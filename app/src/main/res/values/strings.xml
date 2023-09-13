@@ -5,4 +5,17 @@
     <string name="navigation_close">Close Navigation drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_admin_dashboard">AdminDashboardActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Welcome Admin</string>
+    <string name="nav_header_subtitle">admin@admin.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_recordDetails">Record Details</string>
+    <string name="menu_getCurrentLoc">Get Location</string>
+    <string name="menu_setLoc">Set Location</string>
+    <string name="menu_logout">Logout</string>
 </resources>

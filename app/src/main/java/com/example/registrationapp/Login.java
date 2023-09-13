@@ -99,20 +99,10 @@ public class Login extends AppCompatActivity {
             }
         });
 
-
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String emailID = username.getText().toString().trim();
-//                String pass = password.getText().toString();
-//                if(emailID.equals("admin@admin.com") && pass.equals("admin@12")){
-//                    Intent intent = new Intent(Login.this,AdminHomeActivity.class);
-//                    startActivity(intent);
-//                    Toast.makeText(Login.this, "Admin Login Successful", Toast.LENGTH_SHORT).show();
-//                }
                 performLogin();
-
-
             }
         });
 
@@ -120,6 +110,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Login.this, AdminHomeActivity.class));
+            }
+        });
+
+        fbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this, AdminDashboardActivity.class));
             }
         });
 
