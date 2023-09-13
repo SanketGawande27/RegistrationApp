@@ -27,8 +27,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         binding = ActivityAdminDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.appBarAdminDashboard.toolbar);
+        //hide mail icon from all the fragments
 //        binding.appBarAdminDashboard.fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
