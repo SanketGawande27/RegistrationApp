@@ -27,12 +27,9 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-<<<<<<< HEAD
             android:name=".AdminHomeActivity"
             android:exported="false" />
         <activity
-=======
->>>>>>> b1655a84e716638ee7079b03feeb90b442cc5e7d
             android:name=".ForgetPasswordActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
