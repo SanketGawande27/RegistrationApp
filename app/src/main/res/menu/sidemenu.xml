@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/menu_profile"
+            android:icon="@drawable/baseline_person"
+            android:title="Profile" />
+
+        <item android:id="@+id/menu_report"
+            android:icon="@drawable/baseline_insert_drive_file"
+            android:title="Report" />
+
+        <item android:id="@+id/menu_home"
+            android:icon="@drawable/baseline_home"
+            android:title="Home" />
+
+        <item android:id="@+id/menu_home1"
+            android:icon="@drawable/baseline_home"
+            android:title="Home1" />
+
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Authentication">
+            <menu>
+                <item android:id="@+id/menu_logout"
+                    android:icon="@drawable/baseline_logout"
+                    android:title="Logout" />
+            </menu>
+        </item>
+    </group>
+</menu>

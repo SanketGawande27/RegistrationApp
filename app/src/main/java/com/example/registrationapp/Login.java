@@ -109,7 +109,14 @@ public class Login extends AppCompatActivity {
         gbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this, AdminHomeActivity.class));
+                //startActivity(new Intent(Login.this, AdminHomeActivity.class));
+            }
+        });
+
+        fbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // startActivity(new Intent(Login.this, AdminDashboard.class));
             }
         });
 

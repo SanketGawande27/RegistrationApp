@@ -12,6 +12,7 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+<<<<<<< HEAD
         android:id="@+id/nav_recordDetails"
         android:name="com.example.registrationapp.ui.recordDetails.RecordDetails"
         android:label="@string/menu_recordDetails"
@@ -35,4 +36,16 @@
         android:label="@string/menu_logout"
         tools:layout="@layout/fragment_logout" />
 
+=======
+        android:id="@+id/nav_gallery"
+        android:name="com.example.registrationapp.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.registrationapp.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+>>>>>>> b1655a84e716638ee7079b03feeb90b442cc5e7d
 </navigation>
